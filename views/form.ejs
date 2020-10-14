@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Recipe</title>
+    <style type="text/css">
+
+input[type=text],textarea {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+
+  
+}
+#birim,#miktar,#malzemeAdi
+ {
+  width: 40%;
+  padding: 6px 12px;
+  margin: 4px 0;
+  box-sizing: border-box;
+
+  
+}
+input[type=submit] {
+  border-radius: 1rem;
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+        body {
+            background-color: #f0f0f2;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            
+        }
+        div {
+            width: 600px;
+            margin: 5em auto;
+            padding: 2em;
+            background-color: #fdfdff;
+            border-radius: 0.5em;
+            box-shadow: 2px 3px 7px 2px rgba(0,0,0,0.02);
+        }
+        a:link, a:visited {
+            color: #38488f;
+            text-decoration: none;
+        }
+        @media (max-width: 700px) {
+            div {
+                margin: 0 auto;
+                width: auto;
+            }
+        }
+        </style>
+</head>
+<body>
+    <div>
+    <h1>Yemek Tarifi Ekle </h1>
+    <hr/>
+    <form method="POST" action="/add" id="formula">
+        <label for="yemekAdi">Yemek Adı </label>
+        <input type="text" id="yemekAdi" name="yemekAdi"><br>
+
+
+        <label for="kacKisilik">Kaç Kişilik</label>
+        <input type="text" id="kacKisilik" name="kacKisilik"><br>
+
+        <label for="süresi">Süresi </label>
+        <input type="text" id="süresi" name="süresi"><br>
+
+        <label for="arama">Anahtar Kelimeler </label>
+        <input type="text" id="arama" name="arama"><br>
+
+        <label for="tarifi">Tarifi </label>
+        <textarea id="tarifi" name="tarifi" rows="10" cols="30"></textarea><br>
+
+
+
+        <label for="malzemeSayisi">Malzeme Sayısı</label>
+        <select id="malzemeSayisi" name="malzemeSayisi">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+          </select>
+          <input type="button" value="Ekle" onclick="addButtonAction()" ></button>
+        <br><br>
+        <span id="malzemeNoktasi">
+
+        </span>
+
+        <input name="jsonData" value="" hidden id="datasfer">
+        
+
+
+
+        <input type="submit"  onclick="submitter()">
+
+    </form>
+    </div>
+
+
+    <script>
+
+
+        var jsonModel= {
+        "yemekAdi":"",
+        "süresi":"",
+        "kacKisi":"",
+        "arama":"",
+        "tarif":"",
+        "malzemeler":[
+        ]
+        }    
+        
+
+     
+
+        var formula=document.getElementById("formula")
+
+        var sayiSelector=document.getElementById("malzemeSayisi")
+        var malzemeNoktasi=document.getElementById("malzemeNoktasi")
+
+        var yemekAdi=document.getElementById("yemekAdi")
+        var kacKisilik=document.getElementById("kacKisilik")
+        var süresi=document.getElementById("süresi")
+        var tarifi=document.getElementById("tarifi")
+
+        var arama=document.getElementById("arama")
+        var datasfer=document.getElementById("datasfer")
+        //var birim=document.getElementById("birim")
+        //var miktar=document.getElementById("miktar")
+        //var malzemeAdi=document.getElementById("malzemeAdi")
+        
+
+        var count=0
+
+
+
+        function addButtonAction(){
+           console.log( sayiSelector.value)
+           count=sayiSelector.value
+           malzemeNoktasi.innerHTML=""
+            for (let index = 0; index < sayiSelector.value; index++) {
+                malzemeNoktasi.innerHTML+=
+                '<label for="birim">Birim</label><br>'+
+                '<input type="text" id="birim'+index+'" name="birim'+index+'"><br>'+
+                '<label for="miktar">Miktar</label><br>'+
+                '<input type="text"id="miktar'+index+'" name="miktar'+index+'"><br>'+
+                '<label for="malzemeAdi">Malzeme Adi </label><br>'+
+                '<input type="text" id="malzemeAdi'+index+'" name="malzemeAdi'+index+'"><br><hr>'   
+            }
+           
+        }
+
+        function submitter(){
+            jsonModel.yemekAdi=yemekAdi.value
+            jsonModel.arama=arama.value
+            jsonModel.kacKisi=kacKisilik.value
+            jsonModel.süresi=süresi.value
+            jsonModel.tarif=tarifi.value
+
+
+            for (let index = 0; index < count; index++) {
+                var birim=document.getElementById("birim"+index)
+                var miktar=document.getElementById("miktar"+index)
+                var malzemeAdi=document.getElementById("malzemeAdi"+index)
+                
+                jsonModel.malzemeler.push({"birim":birim.value,"miktar":miktar.value,"malzemeAdi":malzemeAdi.value})
+                console.log({"birim":birim.value,"miktar":miktar.value,"malzemeAdi":malzemeAdi.value})
+                
+            }
+
+            
+
+            console.log(jsonModel)
+        
+            
+            
+            
+            
+            
+           
+           datasfer.value=JSON.stringify(jsonModel)
+
+
+        }
+
+
+
+
+
+
+    </script>
+</body>
+</html>
