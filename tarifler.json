@@ -3,7 +3,9 @@
     "tarifler":
     [
     {
+        
         "yemekAdi":"Mantarlı Tavuk Sote",
+        "url":"/images/mantarli-tavuk-sote.jpg",
         "süresi":"20 dk",
         "kacKisi":"4",
         "arama":"tavukgöğsü, kültürmantarı, zeytinyağı,domates, yeşilbiber, kırmızıbiber, karabiber, kekik,tuz",

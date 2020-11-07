@@ -32,6 +32,29 @@ app.get("/add/apikey=:id",(req,res)=>{
     res.render("form.ejs")
 })
 
+app.get("/all/apikey=:id",(req,res)=>{
+    if(req.params.id!=apikey){
+        res.status(404).json({"Authentication Failed! Please Please Verification Api Key":404})
+    }
+    res.contentType('application/json');
+    
+    var crn=(tarifler.tarifler.length.toString())
+    res.send(JSON.stringify({sonucSayısı:crn,tarifler},null,2))
+})
+
+app.get("/removelast/apikey=:id",(req,res)=>{
+    if(req.params.id!=apikey){
+        res.status(404).json({"Authentication Failed! Please Please Verification Api Key":404})
+    }
+    var ctr=tarifler.tarifler.length-1
+    tarifler.tarifler.pop()
+    
+    file.writeFileSync("deneme.json",JSON.stringify(tarifler))
+    res.contentType('application/json');
+    
+    res.send(JSON.stringify({sonucSayısı:"hepsi",tarifler},null,2))
+})
+
 app.post("/add",(req,res)=>{
     
     //console.log(req.body.jsonData)
